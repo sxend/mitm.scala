@@ -1,4 +1,4 @@
-package arimitsu.sf.mitm
+package mitm
 
 import org.specs2.mutable._
 

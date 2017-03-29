@@ -1,7 +1,6 @@
-package arimitsu.sf.mitm
+package mitm
 
-object Bootstrap {
+object Main {
   def main(args: Array[String]): Unit = {
   }
 }
-
