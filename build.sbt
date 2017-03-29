@@ -20,6 +20,8 @@ libraryDependencies ++= {
   val shapelessVersion = "2.3.1"
   val spec2Version = "3.8.4"
   Seq(
+    "com.twitter" %% "util-eval" % "6.42.0",
+    "org.scala-lang" % "scala-compiler" % scalaVersion.value,
     "com.typesafe.akka" %% "akka-http-core" % akkaHttpVersion,
     "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
     "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion,
