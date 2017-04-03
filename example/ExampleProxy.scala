@@ -1,8 +1,5 @@
-
 new mitm.Proxy.Builder {
   intercept {
-    case (req, res) =>
-      println(req)
-      res
+    (get & path("/"))(remote("http://akka.io/"))
   }
 }
