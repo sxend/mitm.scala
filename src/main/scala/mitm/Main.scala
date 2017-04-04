@@ -2,6 +2,8 @@ package mitm
 
 import java.io.File
 
+import akka.actor.ActorSystem
+import akka.stream.ActorMaterializer
 import com.twitter.util.Eval
 import mitm.Proxy.Builder
 
@@ -15,7 +17,10 @@ object Main {
     val config = parseConfig(args)
     val builder = config.file match {
       case Some(f) => new Eval(None).apply[Proxy.Builder](f)
-      case _       => new Builder {}
+      case _ => new Builder {
+        override protected val system: ActorSystem = ActorSystem("mitm")
+        override protected val materializer: ActorMaterializer = ActorMaterializer()(system)
+      }
     }
     builder.build(config).run()
   }
@@ -35,7 +40,5 @@ object Main {
   }
 
 }
-
-private[mitm] class Default extends Proxy.Builder
 
 case class Arguments(port: Int = 8888, file: Option[File] = None)

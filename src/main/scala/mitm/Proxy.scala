@@ -11,7 +11,7 @@ private[mitm] trait Proxy {
   private[mitm] val arguments: Arguments
   def run(): Unit = {
     implicit val system: ActorSystem = ActorSystem("mitm")
-    implicit val materializer = ActorMaterializer()
+    implicit val materializer = ActorMaterializer()(system)
     implicit val ec = system.dispatcher
     println(arguments)
     Http().bindAndHandle(route, "localhost", arguments.port)
@@ -22,7 +22,7 @@ private[mitm] trait Proxy {
 object Proxy {
   trait Builder extends AnyRef with akka.http.scaladsl.server.Directives with mitm.Directives {
     self =>
-    private val config: String = ""
+
     private val routes: mutable.Seq[Route] = mutable.Seq.empty
     def intercept(rt: Route): Unit = self.routes.update(self.routes.size, rt)
 
