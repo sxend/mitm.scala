@@ -29,7 +29,6 @@ object Main {
 
     opt[Int]('p', "port").action((x, c) =>
       c.copy(port = x)).text("port is binding port")
-
   }
 
 }
