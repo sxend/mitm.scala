@@ -17,9 +17,9 @@ trait Directives {
     } yield RouteResult.Complete(response)
   }
   private def toUri(scheme: String, host: String, port: Int): String = {
-    val uriPart = port match {
-      case 80 => ""
-      case _  => s":$port"
+    val uriPart = (scheme, port) match {
+      case ("http", 80) | ("https", 443) => ""
+      case _                             => s":$port"
     }
     s"$scheme://$host$uriPart"
   }
