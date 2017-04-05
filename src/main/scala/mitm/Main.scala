@@ -6,10 +6,6 @@ import com.twitter.util.Eval
 import mitm.Proxy.Builder
 
 object Main {
-  val usage =
-    """
-      |Usage: mitm.scala [-p <port>] <config file name>
-    """.stripMargin
 
   def main(args: Array[String]): Unit = {
     val config = parseConfig(args)
@@ -26,12 +22,14 @@ object Main {
     }
   }
   private val parser = new scopt.OptionParser[Arguments]("mitm.scala") {
+    help("help").text("Usage: mitm.scala [-p <port>] <config file name>")
 
     opt[File]('c', "config").action((x, c) =>
       c.copy(file = Option[File](x))).text("config file e.g. ./MitmProxy.scala")
 
     opt[Int]('p', "port").action((x, c) =>
       c.copy(port = x)).text("port is binding port")
+
   }
 
 }

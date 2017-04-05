@@ -9,10 +9,18 @@ trait Directives {
   protected implicit val system: ActorSystem
   protected implicit val materializer: ActorMaterializer
   protected val http: HttpExt
-  def remote(url: String): Route = { ctx =>
+  def remote(scheme: String = "http", host: String = "localhost", port: Int = 80): Route = { ctx =>
     import ctx.executionContext
+    val request = ctx.request.copy(uri = toUri(scheme, host, port))
     for {
-      response <- http.singleRequest(ctx.request.copy(uri = url))(materializer)
+      response <- http.singleRequest(request)(materializer)
     } yield RouteResult.Complete(response)
+  }
+  private def toUri(scheme: String, host: String, port: Int): String = {
+    val uriPart = port match {
+      case 80 => ""
+      case _  => s":$port"
+    }
+    s"$scheme://$host$uriPart"
   }
 }
