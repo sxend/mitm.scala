@@ -1,18 +1,14 @@
 package mitm
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.HttpRequest
-import akka.http.scaladsl.server.{ RequestContext, Route, RouteResult }
-import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.HttpExt
+import akka.http.scaladsl.server.{ Route, RouteResult }
 import akka.stream.ActorMaterializer
 
-import scala.concurrent.Future
-import scala.util.{ Failure, Success }
 trait Directives {
-  protected val system: ActorSystem
-  protected val materializer: ActorMaterializer
-  private val http = Http()(system)
+  protected implicit val system: ActorSystem
+  protected implicit val materializer: ActorMaterializer
+  protected val http: HttpExt
   def remote(url: String): Route = { ctx =>
     import ctx.executionContext
     for {
